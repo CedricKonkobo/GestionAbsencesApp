@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Tableau de bord{% endblock %}
+{% block content %}
+
+<div class="top-bar">
+  <a href="{{ url_for('routes.login_prof') }}" class="btn">Retour</a>
+</div>
+
+<h2>Cours : {{ cours.nom }} – Séance n°{% if seance_actuelle %}{{ seances.index(seance_actuelle) + 1 }}{% else %}Aucune{% endif %}</h2>
+
+{% if seances %}
+<form method="get" action="{{ url_for('routes.prof_dashboard') }}">
+  <input type="hidden" name="cours" value="{{ cours.nom }}">
+  <select name="seance_id">
+    {% for s in seances %}
+      <option value="{{ s.id }}" {% if s==seance_actuelle %}selected{% endif %}>
+        Séance n°{{ loop.index }} – {{ s.date }}
+      </option>
+    {% endfor %}
+  </select>
+  <button type="submit" class="btn primary">Charger</button>
+</form>
+{% else %}
+  <p>Aucune séance pour ce cours.</p>
+{% endif %}
+
+<div class="columns">
+  <div class="column">
+    <h3>✅ Présents</h3>
+    <ul>
+      {% for e in presents %}
+        <li>{{ e.prenom }} {{ e.nom }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="column">
+    <h3>❌ Absents</h3>
+    <ul>
+      {% for e in absents %}
+        <li>{{ e.prenom }} {{ e.nom }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

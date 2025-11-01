@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Scan Cours{% endblock %}
+{% block content %}
+  <div class="top-bar">
+    <a href="{{ url_for('routes.login_prof') }}" class="btn">Login</a>
+    <a href="{{ url_for('routes.login_admin') }}" class="btn">Admin</a>
+  </div>
+
+  <h2>Scannez le QR code du cours</h2>
+
+  <div class="scanner-box">
+    <video id="video" autoplay></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+  </div>
+  <canvas id="canvas" style="display:none;"></canvas>
+
+  <form id="qrForm" method="POST" action="{{ url_for('routes.scan_cours') }}" style="display:none;">
+    <input type="hidden" name="qr_data" id="qr_data">
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    const qrDataInput = document.getElementById('qr_data');
+    const form = document.getElementById('qrForm');
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+      .then(stream => {
+        video.srcObject = stream;
+        requestAnimationFrame(tick);
+      });
+
+    function tick() {
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0);
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+        if (code && code.data.startsWith("cours-")) {
+          qrDataInput.value = code.data;
+          form.submit(); // envoie auto
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+  </script>
+{% endblock %}

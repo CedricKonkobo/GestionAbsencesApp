@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Accueil{% endblock %}
+{% block content %}
+  <div class="splash">
+    <h1 class="fade-in">📘 Gestion des Absences</h1>
+    <p class="fade-in-delay">Redirection...</p>
+  </div>
+  <meta http-equiv="refresh" content="2; url={{ url_for('routes.scan_prof') }}">
+{% endblock %}

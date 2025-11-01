@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Scan Élève{% endblock %}
+{% block content %}
+
+  <h2>Scannez votre QR code</h2>
+
+  <div class="scanner-box">
+    <video id="video" autoplay></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+  </div>
+  <div id="success-message" class="success-message">✅ Scan réussi !</div>
+
+  <form id="qrForm" method="POST" action="{{ url_for('routes.marquer_presence_route') }}" style="display:none;">
+    <input type="hidden" name="qr_data" id="qr_data">
+  </form>
+
+  <div class="bottom-bar">
+    <a href="{{ url_for('routes.cloturer_seance') }}" class="btn danger">Clôturer</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    const qrDataInput = document.getElementById('qr_data');
+    const form = document.getElementById('qrForm');
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+      .then(stream => {
+        video.srcObject = stream;
+        requestAnimationFrame(tick);
+      });
+
+    function tick() {
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0);
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+        if (code && code.data.includes("-")) {  // format élève : "ID-nom-prenom"
+          qrDataInput.value = code.data;
+          
+          // Affiche le message de réussite
+          const msg = document.getElementById('success-message');
+          msg.style.opacity = 1;
+
+          // Masque le message après 3 secondes
+          setTimeout(() => { msg.style.opacity = 0; }, 3000);
+
+          // Envoi auto après un court délai (optionnel)
+          setTimeout(() => { form.submit(); }, 500);
+        }
+
+      }
+      requestAnimationFrame(tick);
+    }
+  </script>
+
+{% endblock %}

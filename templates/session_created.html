@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Séance Créée{% endblock %}
+{% block content %}
+  <div class="center-box">
+    <h2>✅ Séance créée avec succès</h2>
+    <meta http-equiv="refresh" content="2; url={{ url_for('routes.scan_eleve') }}">
+  </div>
+{% endblock %}
