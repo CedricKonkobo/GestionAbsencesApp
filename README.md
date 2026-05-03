@@ -1,24 +1,23 @@
-# Application Web de Gestion d’Absences
+# Web Application for Attendance Management
 
-Une application web complète pour la **gestion des absences et présences**, combinant backend Python/Flask et intégration front-end, avec génération de QR Codes pour l’enregistrement des présences.
+A complete web application for **attendance and absence management**, combining a Python/Flask backend with a front-end interface, including QR code generation for attendance tracking.
 
 ## Description
-Ce projet consiste en une application web qui permet de gérer les absences et présences des utilisateurs.  
-Elle inclut la **gestion des utilisateurs**, des **règles métier**, des **cas d’erreur**, et un système de **QR Codes** pour faciliter l’enregistrement des présences.
+This project is a web application designed to manage user attendance and absences.  
+It includes **user management**, **business rules validation**, **error handling**, and a **QR code system** to simplify attendance tracking.
 
-## Fonctionnalités
-- Conception d’une architecture **client–serveur** avec Flask  
-- Génération et lecture de **QR Codes** pour l’enregistrement des présences  
-- Gestion des **utilisateurs** et de leurs rôles  
-- Validation des **règles métier** et gestion des **cas d’erreur**  
-- Intégration front-end en **HTML, CSS et JavaScript** pour une interface interactive  
+## Features
+- Design of a **client–server architecture** using Flask  
+- **QR code generation and scanning** for attendance tracking  
+- **User and role management**  
+- **Business rules validation** and **error handling**  
+- Front-end integration using **HTML, CSS, and JavaScript** for an interactive UI  
 
-## Technologies Utilisées
-- **Python** – backend et logique métier  
-- **Flask** – framework web pour l’architecture client–serveur  
-- **HTML / CSS / JavaScript** – intégration front-end et interface utilisateur  
-- **Bibliothèques QR Code** – génération et lecture des QR Codes  
+## Technologies Used
+- **Python** – backend and business logic  
+- **Flask** – web framework for client–server architecture  
+- **HTML / CSS / JavaScript** – front-end integration and user interface  
+- **QR Code libraries** – generation and scanning  
 
 ## Installation
-Clonez le dépôt :
-
+Clone the repository
